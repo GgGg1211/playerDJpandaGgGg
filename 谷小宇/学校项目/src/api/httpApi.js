@@ -20,3 +20,7 @@ export const postSchoolRouter = (data) => {
 export const getInput = (data) => {
     return get('/input', data)
 };
+
+export const getSingle = (data) => {
+    return get('/single', data)
+};

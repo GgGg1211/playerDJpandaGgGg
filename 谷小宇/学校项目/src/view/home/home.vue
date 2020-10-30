@@ -1,11 +1,8 @@
 <template>
   <el-container id="home">
-    
     <el-header
       ><div class="head-po" @click="tabUser">
-        <div>
-          <img :src="user.url" alt="" /><span>教师</span>
-        </div>
+        <div><img :src="user.url" alt="" /><span>教师</span></div>
 
         <div @click="exit">
           <i class="el-icon-switch-button"></i><span>退出</span>
@@ -21,7 +18,6 @@
           class="el-menu-vertical-demo"
           :default-openeds="openeds"
         >
-        
           <Submenu :params="routers" />
         </el-menu>
       </el-aside>
@@ -31,7 +27,6 @@
     <Dialog :userId="userId" :show="show" v-on:close="show = false" />
 
   </el-container>
-  
 </template>
 
 <script>
@@ -48,7 +43,7 @@ export default {
       userId: "",
       show: false,
       loading: false,
-      user:JSON.parse(localStorage.getItem("user")) || {}
+      user: JSON.parse(localStorage.getItem("user")) || {},
     };
   },
   components: {
@@ -72,7 +67,7 @@ export default {
     //重定向
     confirmActive(routers) {
       if (this.$route.path !== "/") {
-        this.active = this.$route.path;
+        this.active = `/${this.$route.path.split("/")[1]}`;
         return;
       }
       if (routers[0].children) {
@@ -81,7 +76,6 @@ export default {
         this.active = routers[0].path;
         this.$router.push({ path: routers[0].path });
       }
-      // console.log(this.active);
     },
     tabUser() {
       this.show = true;
@@ -89,27 +83,26 @@ export default {
     },
   },
   watch: {
+    //监听路由改变对应导航栏高亮
     $route(to) {
-      this.active = to.path;
+      console.log(to.path);
+      this.active = `/${to.path.split("/")[1]}`;
+      console.log(this.active, "cccccccccc");
       this.routers = JSON.parse(localStorage.getItem("router"));
     },
     routers() {
-      this.show = false;
       this.unfold(this.routers);
       this.confirmActive(this.routers);
     },
   },
   mounted() {
     let userInfo = window.localStorage.getItem("user");
-    // console.log(this.$router);
-    // console.log(this.$route);
 
     if (!userInfo) {
       this.$router.push({ name: "Login", params: {} });
     }
     this.unfold(this.routers);
     this.confirmActive(this.routers);
-    // console.log(this.active);
   },
 };
 </script>

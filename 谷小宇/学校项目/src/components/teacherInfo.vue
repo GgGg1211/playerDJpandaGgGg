@@ -55,7 +55,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="cancle">取 消</el-button>
+        <el-button @click="cancle('numberValidateForm')">取 消</el-button>
         <el-button type="primary" @click="submitForm('numberValidateForm')"
           >确 定</el-button
         >
@@ -132,6 +132,7 @@ export default {
     cancle() {
       this.dialogFormVisible = false;
       this.form = {};
+      this.$refs.numberValidateForm.resetFields();
     },
     dialogS() {},
   },
